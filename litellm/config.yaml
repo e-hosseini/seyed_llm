@@ -1,16 +1,19 @@
+# ANTHROPIC_OAUTH_TOKEN is a Claude subscription token (claude setup-token).
+# LiteLLM sends sk-ant-oat* as Authorization: Bearer and adds the OAuth beta header.
+# Every sandbox session bills that one account. An empty token falls back to ANTHROPIC_API_KEY.
 model_list:
   - model_name: claude-sonnet-5-5
     litellm_params:
       model: anthropic/claude-sonnet-5-5
-      api_key: os.environ/ANTHROPIC_API_KEY
+      api_key: os.environ/ANTHROPIC_OAUTH_TOKEN
   - model_name: claude-haiku-5-5
     litellm_params:
       model: anthropic/claude-haiku-5-5
-      api_key: os.environ/ANTHROPIC_API_KEY
+      api_key: os.environ/ANTHROPIC_OAUTH_TOKEN
   - model_name: claude-opus-5-5
     litellm_params:
       model: anthropic/claude-opus-5-5
-      api_key: os.environ/ANTHROPIC_API_KEY
+      api_key: os.environ/ANTHROPIC_OAUTH_TOKEN
 
 general_settings:
   master_key: os.environ/LITELLM_MASTER_KEY

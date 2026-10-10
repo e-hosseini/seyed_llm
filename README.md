@@ -7,7 +7,7 @@ its own Docker sandbox.
 Telegram ──► bot (grammY, SQLite) ──docker exec──► sandbox container (one per user)
                  │                                   claude -p --resume <session>
                  └─ admin API ─► LiteLLM ◄───────────  ANTHROPIC_BASE_URL (per-user virtual key)
-                                    └─► Anthropic (the real API key lives only here)
+                                    └─► Anthropic (one subscription token, shared by every session)
 ```
 
 ## How it behaves
@@ -36,8 +36,9 @@ Telegram ──► bot (grammY, SQLite) ──docker exec──► sandbox conta
 
 ## Security notes
 
-- The Anthropic key is only in LiteLLM. Sandboxes get a per-user virtual key and can reach only
-  LiteLLM and the internet. Deleting the key (`/revoke`) cuts model access immediately.
+- The subscription token (`claude setup-token`, `ANTHROPIC_OAUTH_TOKEN`) is only in LiteLLM.
+  Sandboxes get a per-user virtual key and can reach only LiteLLM and the internet.
+  Deleting the key (`/revoke`) cuts that user off; the Claude login itself stays on the proxy.
 - Sandboxes run non-root with all capabilities dropped, `no-new-privileges`, and CPU / memory / pid limits.
 - `scripts/firewall.sh` is required: without it a sandbox could reach services on the VPS itself.
 - The bot holds the Docker socket, which is root-equivalent on the host. Keep the bot code trusted.
