@@ -1,0 +1,6 @@
+# Local development: run only postgres + litellm in Docker, and the bot on the host.
+#   docker compose -f docker-compose.yml -f docker-compose.dev.yml up -d postgres litellm
+services:
+  litellm:
+    ports:
+      - "127.0.0.1:4000:4000" # so the bot on the host can reach the admin API
